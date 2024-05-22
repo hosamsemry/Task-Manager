@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import Project, Task, Comment, ActivityLog
 
 
@@ -20,14 +19,6 @@ class UserSerializer(serializers.ModelSerializer):
         return user
     
 
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-        # Add custom claims
-        token['username'] = user.username
-        return token
-
 class ProjectSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
@@ -43,9 +34,11 @@ class TaskSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
+    task = serializers.PrimaryKeyRelatedField(queryset=Task.objects.all())
+    project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = ['id', 'user', 'project', 'task', 'content', 'created_at', 'updated_at']
 
 class ActivityLogSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')

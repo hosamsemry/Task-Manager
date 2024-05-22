@@ -27,8 +27,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "django.contrib.sites",
     'rest_framework',
-    'rest_framework_simplejwt',
+    "rest_framework.authtoken",
+    "allauth", 
+    "allauth.account", 
+    "allauth.socialaccount",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
     'tasks',
 
 ]
@@ -41,21 +47,19 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-}
+"""  "DEFAULT_PERMISSION_CLASSES": [
+ "rest_framework.permissions.IsAuthenticated",
+ ], """
+ "DEFAULT_AUTHENTICATION_CLASSES": [
+ "rest_framework.authentication.SessionAuthentication",
+ "rest_framework.authentication.TokenAuthentication", # new
+ ],
+ }
 
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'AUTH_HEADER_TYPES': ('Bearer',),
-}
 
 ROOT_URLCONF = 'django_project.urls'
 
@@ -70,10 +74,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "django.template.context_processors.request", 
             ],
         },
     },
 ]
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+SITE_ID = 1
 
 WSGI_APPLICATION = 'django_project.wsgi.application'
 
