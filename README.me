@@ -1,56 +1,40 @@
-# Task Manager API
+# Social Web
 
-Task Manager API is a Django project that provides APIs for managing projects, tasks, comments, and activity logs.
+This Django project is a social app that allows users to register, log in, and interact with each other through various features such as following other users, liking images, and bookmarking images.
 
 ## Features
 
-### 1. User Authentication: Users can register, log in, and manage their accounts.
+### 1. Authentication and User Management:
+- Users can register for an account using a registration form.
+- Registered users can log in using their username and password.
+- The project utilizes Django's built-in authentication system for user management.
 
-### 2. Project Management: Create, retrieve, update, and delete projects.
+### 2. Social Features:
+- Users can follow other users, and the app tracks these relationships using a Contact model.
+- Actions such as user registration, following users, and liking images are recorded using the Action model, allowing for activity feeds and user engagement tracking.
+- Social authentication is implemented with Facebook, Twitter, and Google OAuth2, allowing users to log in using their social media accounts.
 
-### 3. Task Management: Create, retrieve, update, and delete tasks within projects.
+### 3. Image Management:
+- Users can upload images, providing a title, description, and URL.
+- Images are associated with users and stored in the database, along with metadata such as upload date, likes, and bookmarks.
+- Users can like images, and the total number of likes for each image is tracked.
 
-### 4. Commenting System: Users can add comments on tasks.
+### 4. Views and Templates:
+- Various views are provided for functionalities such as user registration, login, profile editing, dashboard display, image uploading, and image listing.
+- Templates are used for rendering HTML pages, providing a user interface for different actions and functionalities.
 
-### 5. Activity Logging: Records user actions on tasks, such as creation and updates.
+### 5. Middleware and Debugging:
+- Middleware such as Debug Toolbar is included for debugging purposes.
+- The project uses SQLite as the database backend for development.
 
-## Installation
-To install and run the Task Manager API on your local machine, follow these steps:
+### 6. URL Routing and Configuration:
+- URLs are defined using Django's URL routing mechanism, directing requests to appropriate views.
+- Settings are configured to manage static files, media files, and other project-related configurations.
 
-### Clone the Repository:
-git clone https://github.com/hosamsemry/Task-Manager.git
-### Navigate to the Project Directory
-### Install Dependencies:
-pip install -r requirements.txt
+### 7. Forms and Models:
+- Django forms are used for user input validation and data handling.
+- Models are defined for user profiles, image data, social interactions, and other application data.
 
-## Usage
-
-After setting up the project, you can access the API endpoints using tools like curl, Postman, or any programming language's HTTP library.
-
-## API Endpoints
-
-### Projects
-- GET /api/projects/: List all projects.
-- POST /api/projects/: Create a new project.
-- GET /api/projects/{project_id}/: Retrieve details of a specific project.
-- PUT /api/projects/{project_id}/: Update a project.
-- DELETE /api/projects/{project_id}/: Delete a project.
-### Tasks
-- GET /api/tasks/: List all tasks.
-- POST /api/tasks/: Create a new task.
-- GET /api/tasks/{task_id}/: Retrieve details of a specific task.
-- PUT /api/tasks/{task_id}/: Update a task.
-- DELETE /api/tasks/{task_id}/: Delete a task.
-### Comments
-- GET /api/comments/: List all comments.
-- POST /api/comments/: Create a new comment.
-- GET /api/comments/{comment_id}/: Retrieve details of a specific comment.
-- PUT /api/comments/{comment_id}/: Update a comment.
-- DELETE /api/comments/{comment_id}/: Delete a comment.
-### Activity Logs
-- GET /api/activity-logs/: List all activity logs.
-- GET /api/activity-logs/{log_id}/: Retrieve details of a specific activity log.
 
 ## Contributing
-
-Contributions are welcome! If you find any issues or want to add new features, feel free to open an issue or submit a pull request.
+Contributions are welcomed! Please feel free to submit a Pull Request.
