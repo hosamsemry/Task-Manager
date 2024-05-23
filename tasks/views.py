@@ -6,29 +6,15 @@ from rest_framework import generics, permissions
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from .models import Project, Task, Comment, ActivityLog
-from .serializers import UserSerializer, ProjectSerializer, TaskSerializer, CommentSerializer, ActivityLogSerializer
+from .serializers import ProjectSerializer,TaskSerializer, CommentSerializer, ActivityLogSerializer,\
+    TaskListSerializer,ProjectListSerializer
 from .permissions import IsOwnerOrReadOnly, IsAdminOrReadOnly
 
-""" class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
 
-class CustomAuthToken(ObtainAuthToken):
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data, context={'request': request})
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({
-            'token': token.key,
-            'user_id': user.pk,
-            'username': user.username
-        })
- """
 
 class ProjectListCreateView(generics.ListCreateAPIView):
     queryset = Project.objects.all()
-    serializer_class = ProjectSerializer
+    serializer_class = ProjectListSerializer
     permission_classes = [permissions.IsAuthenticated,IsAdminOrReadOnly]
 
     def perform_create(self, serializer):
@@ -41,13 +27,13 @@ class ProjectDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class TaskListCreateView(generics.ListCreateAPIView):
     queryset = Task.objects.all()
-    serializer_class = TaskSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = TaskListSerializer
+    permission_classes = [permissions.IsAuthenticated,IsAdminOrReadOnly]
 
 class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    permission_classes = [permissions.IsAuthenticated,IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated,IsAdminOrReadOnly]
 
 class CommentListCreateView(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
@@ -69,4 +55,4 @@ class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
 class ActivityLogListView(generics.ListAPIView):
     queryset = ActivityLog.objects.all()
     serializer_class = ActivityLogSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated,IsAdminOrReadOnly]
